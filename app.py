@@ -140,10 +140,8 @@ def render_chart_candidate(name: str) -> None:
     # タイトル行
     st.html(
         f'<div style="margin:0.4rem 0 0.1rem">'
-        f'<span style="font-size:1.1rem;font-weight:700;font-family:serif;color:#1A0A00">'
-        f'{name}</span>'
-        f'<span style="font-size:0.8rem;color:#888;margin-left:0.4rem">'
-        f'{rock["name_en"]} / {rock["name_kana"]}</span>'
+        f'<span class="chart-cand-name">{name}</span>'
+        f'<span class="chart-cand-sub">{rock["name_en"]} / {rock["name_kana"]}</span>'
         f'</div>'
     )
 
@@ -161,11 +159,7 @@ def render_chart_candidate(name: str) -> None:
     # 露頭の見分け方（最初の1文のみ）
     first_tip = rock.get("field_id", "").split("。")[0]
     if first_tip:
-        st.html(
-            f'<div style="background:#FFFDF0;border-left:3px solid #C9A84C;'
-            f'padding:0.3rem 0.5rem;font-size:0.78rem;color:#4A3000;margin-top:0.3rem">'
-            f'🔎 {first_tip}。</div>'
-        )
+        st.html(f'<div class="chart-cand-tip">🔎 {first_tip}。</div>')
 
     st.divider()
 
@@ -174,12 +168,8 @@ def render_identification_chart() -> None:
     """露頭での岩石同定チャートを表示。"""
     st.html("""
     <div style="margin-bottom:1rem">
-      <h3 style="font-family:serif;color:#2C1810;margin-bottom:0.2rem">
-        🔍 露頭での岩石同定チャート
-      </h3>
-      <p style="color:#666;font-size:0.9rem;margin:0">
-        観察できる特徴を 2 ステップで選ぶと候補岩石を表示します。
-      </p>
+      <h3 class="chart-header-title">🔍 露頭での岩石同定チャート</h3>
+      <p class="chart-header-sub">観察できる特徴を 2 ステップで選ぶと候補岩石を表示します。</p>
     </div>
     """)
 
@@ -211,8 +201,7 @@ def render_identification_chart() -> None:
 
         # ── ヒント ────────────────────────────────────────────
         st.html("""
-        <div style="margin-top:1.5rem;background:#F5F0E8;border-radius:4px;
-                    padding:0.8rem 1rem;font-size:0.8rem;color:#5C3D1A;line-height:1.8">
+        <div class="chart-hint-box">
           <strong>📋 識別に役立つテスト</strong><br>
           ⬡ <b>酸テスト</b>：食酢をかけて泡立てば炭酸塩岩（石灰岩・大理石）<br>
           ⬡ <b>浮力テスト</b>：水に浮けば軽石<br>
@@ -225,9 +214,7 @@ def render_identification_chart() -> None:
     with col_r:
         if color_choice is None:
             st.html("""
-            <div style="height:300px;display:flex;align-items:center;justify-content:center;
-                        background:#FDFAF5;border:2px dashed #DDD5C0;border-radius:8px;
-                        color:#A08060;font-size:1rem;text-align:center;padding:2rem">
+            <div class="chart-empty">
               ← Step 1 の色を選択すると<br>候補岩石が表示されます
             </div>
             """)
@@ -242,8 +229,7 @@ def render_identification_chart() -> None:
                 f"**{color_choice}** に該当する可能性がある岩石（Step 2 で絞り込み）："
             )
             tags = "".join(
-                f'<span style="display:inline-block;background:#EEE;border-radius:3px;'
-                f'padding:0.15rem 0.6rem;margin:0.2rem;font-size:0.85rem">{n}</span>'
+                f'<span class="chart-cand-tag">{n}</span>'
                 for n in all_candidates
             )
             st.html(f'<div style="line-height:2">{tags}</div>')

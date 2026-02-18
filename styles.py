@@ -297,6 +297,91 @@ def get_css() -> str:
         .encyclopedia-header h1 { font-size: 1.7rem; }
         .rock-name-ja { font-size: 1.1rem; }
     }
+
+    /* ── カテゴリ見出し（色はCSSクラスで管理） ───────────────── */
+    .category-heading-igneous    { color: #8B1A1A; border-left-color: #8B1A1A; }
+    .category-heading-sedimentary{ color: #6B4226; border-left-color: #6B4226; }
+    .category-heading-metamorphic{ color: #1A3A5C; border-left-color: #1A3A5C; }
+
+    /* ── 同定チャート ─────────────────────────────────────────── */
+    .chart-header-title {
+        font-family: 'Noto Serif JP', serif;
+        font-size: 1.17em;
+        font-weight: 700;
+        color: #2C1810;
+        margin: 0 0 0.2rem;
+    }
+    .chart-header-sub {
+        color: #555;
+        font-size: 0.9rem;
+        margin: 0;
+    }
+    .chart-hint-box {
+        margin-top: 1.5rem;
+        background: #F5F0E8;
+        border-radius: 4px;
+        padding: 0.8rem 1rem;
+        font-size: 0.8rem;
+        color: #5C3D1A;
+        line-height: 1.8;
+    }
+    .chart-cand-name {
+        font-size: 1.1rem;
+        font-weight: 700;
+        font-family: 'Noto Serif JP', serif;
+        color: #1A0A00;
+    }
+    .chart-cand-sub {
+        font-size: 0.8rem;
+        color: #5A4A3A;
+        margin-left: 0.4rem;
+    }
+    .chart-cand-tip {
+        background: #FFFDF0;
+        border-left: 3px solid #C9A84C;
+        padding: 0.3rem 0.5rem;
+        font-size: 0.78rem;
+        color: #4A3000;
+        margin-top: 0.3rem;
+    }
+    .chart-cand-tag {
+        display: inline-block;
+        background: #EEE;
+        border-radius: 3px;
+        padding: 0.15rem 0.6rem;
+        margin: 0.2rem;
+        font-size: 0.85rem;
+        color: #333;
+    }
+    .chart-empty {
+        height: 300px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: #FDFAF5;
+        border: 2px dashed #DDD5C0;
+        border-radius: 8px;
+        color: #A08060;
+        font-size: 1rem;
+        text-align: center;
+        padding: 2rem;
+    }
+
+    /* ── ダークモード ─────────────────────────────────────────── */
+    @media (prefers-color-scheme: dark) {
+        .category-heading-igneous    { color: #E87070; border-left-color: #E87070; }
+        .category-heading-sedimentary{ color: #D49060; border-left-color: #D49060; }
+        .category-heading-metamorphic{ color: #7AACDF; border-left-color: #7AACDF; }
+
+        .chart-header-title { color: #F0E8D8; }
+        .chart-header-sub   { color: #A09080; }
+        .chart-hint-box     { background: #2A2010; color: #C8B090; }
+        .chart-cand-name    { color: #F0E8D8; }
+        .chart-cand-sub     { color: #A09080; }
+        .chart-cand-tip     { background: #252010; border-left-color: #C9A84C; color: #C9A870; }
+        .chart-cand-tag     { background: #3A3028; color: #D4C8B4; }
+        .chart-empty        { background: #1E1C18; border-color: #4A4030; color: #A09070; }
+    }
 </style>
 """
 
@@ -364,7 +449,7 @@ def rock_entry_html(rock: dict, category: str) -> str:
 def category_heading_html(category: str, count: int) -> str:
     info = CATEGORY_COLORS[category]
     return f"""
-<div class="category-heading" style="color:{info['primary']}; border-left-color:{info['primary']}">
+<div class="category-heading category-heading-{category}">
   {info['emoji']} {info['label']}
   <span class="category-heading-sub">— {count} 種収録</span>
 </div>
