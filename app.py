@@ -1,6 +1,8 @@
 """岩石図鑑 — 事典版 Streamlit アプリ"""
 
+import requests
 import streamlit as st
+
 from data.rocks import CATEGORY_LABELS, get_rocks_by_category, search_rocks
 from styles import CATEGORY_COLORS, category_heading_html, get_css, rock_entry_html
 
@@ -11,9 +13,38 @@ st.set_page_config(
     layout="wide",
     initial_sidebar_state="expanded",
 )
-
-# CSS をグローバルに注入（st.markdown のみ使用）
 st.markdown(get_css(), unsafe_allow_html=True)
+
+
+# ─── Wikipedia サムネイル取得（セッション内キャッシュ） ────────────────────────
+@st.cache_data(show_spinner=False)
+def fetch_thumbnails(wiki_titles: tuple[str, ...]) -> dict[str, str]:
+    """Wikipedia REST API で各ページのサムネイルURLを一括取得する。"""
+    result: dict[str, str] = {}
+    for title in wiki_titles:
+        try:
+            url = (
+                "https://en.wikipedia.org/api/rest_v1/page/summary/"
+                + title.replace(" ", "_")
+            )
+            resp = requests.get(
+                url,
+                timeout=6,
+                headers={"User-Agent": "RockEncyclopediaApp/2.0 (educational)"},
+            )
+            if resp.status_code == 200:
+                thumb = resp.json().get("thumbnail", {}).get("source", "")
+                if thumb:
+                    result[title] = thumb
+        except Exception:
+            pass
+    return result
+
+
+def resolve_image_url(rock: dict, thumbnail_cache: dict[str, str]) -> str:
+    """キャッシュから画像URLを返す。取得できなければ空文字。"""
+    return thumbnail_cache.get(rock.get("wiki_title", ""), "")
+
 
 # ─── ヘッダー ─────────────────────────────────────────────────────────────────
 st.html("""
@@ -56,10 +87,25 @@ with st.sidebar:
     st.markdown("---")
     st.markdown("### モース硬度の目安")
     for h, m in [
-        ("1","滑石"),("2","石膏"),("3","方解石"),("4","蛍石"),("5","燐灰石"),
-        ("6","正長石"),("7","石英"),("8","黄玉"),("9","鋼玉"),("10","金剛石"),
+        ("1", "滑石"), ("2", "石膏"), ("3", "方解石"), ("4", "蛍石"), ("5", "燐灰石"),
+        ("6", "正長石"), ("7", "石英"), ("8", "黄玉"), ("9", "鋼玉"), ("10", "金剛石"),
     ]:
         st.caption(f"**{h}** — {m}")
+
+
+# ─── 画像を一括プリフェッチ ───────────────────────────────────────────────────
+from data.rocks import get_all_rocks
+
+_all_titles = tuple(
+    r["wiki_title"] for r in get_all_rocks() if r.get("wiki_title")
+)
+with st.spinner("画像を読み込み中…"):
+    _thumbnails = fetch_thumbnails(_all_titles)
+
+
+def render_rock(rock: dict, category: str) -> None:
+    img_url = resolve_image_url(rock, _thumbnails)
+    st.html(rock_entry_html({**rock, "image_url": img_url}, category))
 
 
 # ─── 検索モード ───────────────────────────────────────────────────────────────
@@ -78,7 +124,7 @@ if search_query:
         cols = st.columns(2, gap="medium")
         for i, rock in enumerate(results):
             with cols[i % 2]:
-                st.html(rock_entry_html(rock, rock["category"]))
+                render_rock(rock, rock["category"])
     else:
         st.info("該当する岩石が見つかりませんでした。")
 
@@ -107,12 +153,12 @@ else:
             cols = st.columns(2, gap="medium")
             for i, rock in enumerate(filtered):
                 with cols[i % 2]:
-                    st.html(rock_entry_html(rock, category))
+                    render_rock(rock, category)
 
 # ─── フッター ─────────────────────────────────────────────────────────────────
 st.html("""
 <div class="encyclopedia-footer">
   <span class="ornament">◆</span>&ensp;岩石図鑑 事典版&ensp;<span class="ornament">◆</span>
-  <br>データは教育目的のサンプルです。画像は Wikimedia Commons より引用。
+  <br>データは教育目的のサンプルです。画像は Wikipedia より引用。
 </div>
 """)

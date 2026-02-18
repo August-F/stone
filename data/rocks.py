@@ -6,6 +6,7 @@ ROCKS = {
             "name": "花崗岩",
             "name_en": "Granite",
             "name_kana": "グラナイト",
+            "wiki_title": "Granite",
             "description": "石英・長石・黒雲母などからなる深成岩。地殻の大部分を構成する。",
             "description_detail": (
                 "花崗岩は、マグマが地下深部でゆっくりと冷却・固結してできた深成岩の代表格です。"
@@ -17,12 +18,12 @@ ROCKS = {
             "hardness": 6.5,
             "color": "灰白色・ピンク",
             "uses": "建築材・墓石・カウンタートップ",
-            "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/60/Granite_Yosemite_P1160483.jpg/480px-Granite_Yosemite_P1160483.jpg",
         },
         {
             "name": "玄武岩",
             "name_en": "Basalt",
             "name_kana": "バサルト",
+            "wiki_title": "Basalt",
             "description": "鉄・マグネシウムに富む暗色の火山岩。海洋地殻の主な構成岩石。",
             "description_detail": (
                 "玄武岩は、低粘性の玄武岩質マグマが噴出して急冷されることで形成される火山岩です。"
@@ -34,12 +35,12 @@ ROCKS = {
             "hardness": 6.0,
             "color": "黒・暗灰色",
             "uses": "道路舗装・建築石材・石畳",
-            "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b3/Vesicular_basalt.jpg/480px-Vesicular_basalt.jpg",
         },
         {
             "name": "黒曜石",
             "name_en": "Obsidian",
             "name_kana": "オブシディアン",
+            "wiki_title": "Obsidian",
             "description": "急冷された溶岩が固まったガラス質の火山岩。非常に鋭い断口を持つ。",
             "description_detail": (
                 "黒曜石は、珪酸分に富む流紋岩質マグマが急速に冷却され、結晶化する暇なくガラス状に固まった天然ガラスです。"
@@ -51,12 +52,12 @@ ROCKS = {
             "hardness": 5.5,
             "color": "黒・暗褐色",
             "uses": "装飾品・外科用メス（先史時代）・宝飾品",
-            "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/8c/ObsidianOregon.jpg/480px-ObsidianOregon.jpg",
         },
         {
             "name": "軽石",
             "name_en": "Pumice",
             "name_kana": "ピューミス",
+            "wiki_title": "Pumice",
             "description": "無数の気泡を含む多孔質の火山岩。水に浮くほど軽い。",
             "description_detail": (
                 "軽石は、ガス成分を多く含む粘性の高い珪長質マグマが爆発的に噴出し、発泡しながら急冷されることで形成される多孔質の火山ガラスです。"
@@ -68,12 +69,12 @@ ROCKS = {
             "hardness": 6.0,
             "color": "白・薄灰色",
             "uses": "研磨剤・コンクリート混合材・スキンケア",
-            "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b2/Pumice_from_Mono_Craters.jpg/480px-Pumice_from_Mono_Craters.jpg",
         },
         {
             "name": "安山岩",
             "name_en": "Andesite",
             "name_kana": "アンデサイト",
+            "wiki_title": "Andesite",
             "description": "中程度のシリカ含有量を持つ火山岩。火山の斜面に多く見られる。",
             "description_detail": (
                 "安山岩は、シリカ含有量が52〜63%程度の中間的な組成を持つ火山岩で、沈み込み帯の火山弧（島弧・大陸弧）に特徴的な岩石です。"
@@ -85,24 +86,23 @@ ROCKS = {
             "hardness": 6.0,
             "color": "灰色・褐灰色",
             "uses": "建築材・砂利・路盤材",
-            "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/9d/Andesite_with_white_plagioclase_phenocrysts.jpg/480px-Andesite_with_white_plagioclase_phenocrysts.jpg",
         },
         {
             "name": "流紋岩",
             "name_en": "Rhyolite",
             "name_kana": "ライオライト",
+            "wiki_title": "Rhyolite",
             "description": "花崗岩と同じ成分を持つ火山岩。流れ模様（流理構造）が特徴。",
             "description_detail": (
                 "流紋岩は、花崗岩と同じ化学組成（シリカ70%以上）を持つ火山岩で、粘性が極めて高いマグマが噴出・急冷したものです。"
                 "高い粘性のため溶岩流は短距離しか流れず、ドーム状の溶岩円頂丘（溶岩ドーム）を形成することが多いです。"
                 "その名の通り、溶岩が流動した際の縞模様（流理構造）が観察され、白・ピンク・赤・灰色など様々な色調を示します。"
-                "超高温（900℃前後）のガスを多量に含む場合は爆発的な噴火（プリニー式噴火）を引き起こし、広大な火砕流堆積物を残します。"
+                "超高温のガスを多量に含む場合は爆発的な噴火（プリニー式噴火）を引き起こし、広大な火砕流堆積物を残します。"
                 "装飾石材としての利用のほか、細かく砕いた流紋岩質凝灰岩は古くから建築材（大谷石など）として使われてきました。"
             ),
             "hardness": 6.5,
             "color": "ピンク・赤・灰色",
             "uses": "装飾石材・研磨材",
-            "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/0e/Rhyolite.jpg/480px-Rhyolite.jpg",
         },
     ],
     "sedimentary": [
@@ -110,6 +110,7 @@ ROCKS = {
             "name": "砂岩",
             "name_en": "Sandstone",
             "name_kana": "サンドストーン",
+            "wiki_title": "Sandstone",
             "description": "砂粒が堆積・固結した岩石。粒の大きさが0.06〜2mmの岩石。",
             "description_detail": (
                 "砂岩は、砂粒（主に石英・長石）が水流・風によって運搬・堆積し、上位の地層の圧力や鉱物の膠結作用によって固結した堆積岩です。"
@@ -121,15 +122,15 @@ ROCKS = {
             "hardness": 6.0,
             "color": "黄・赤・茶・灰色",
             "uses": "建築材・舗装材・フィルタリング材",
-            "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b3/Navajo_Sandstone.jpg/480px-Navajo_Sandstone.jpg",
         },
         {
             "name": "石灰岩",
             "name_en": "Limestone",
             "name_kana": "ライムストーン",
+            "wiki_title": "Limestone",
             "description": "炭酸カルシウムを主成分とする堆積岩。サンゴや貝殻が起源のことが多い。",
             "description_detail": (
-                "石灰岩は、炭酸カルシウム（CaCO₃）を50%以上含む堆積岩で、主にサンゴ・貝殻・有孔虫などの生物遺骸が浅海底に堆積して形成されます。"
+                "石灰岩は、炭酸カルシウム（CaCO3）を50%以上含む堆積岩で、主にサンゴ・貝殻・有孔虫などの生物遺骸が浅海底に堆積して形成されます。"
                 "塩酸をかけると二酸化炭素の気泡を出すことで容易に識別でき、これが野外での簡易判定に使われます。"
                 "雨水（弱酸性）や地下水に溶けやすく、長年の侵食でカルスト地形（鍾乳洞・石灰岩台地・ドリーネなど）を形成します。"
                 "日本最大の鍾乳洞である秋芳洞（山口県）や、石灰岩採掘で有名な秩父・三重・山口などの産地が知られています。"
@@ -138,12 +139,12 @@ ROCKS = {
             "hardness": 3.0,
             "color": "白・灰・黄",
             "uses": "セメント原料・建築材・農業用石灰",
-            "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e7/LimestoneSample.jpg/480px-LimestoneSample.jpg",
         },
         {
             "name": "泥岩",
             "name_en": "Mudstone",
             "name_kana": "マッドストーン",
+            "wiki_title": "Mudstone",
             "description": "泥が固まった岩石。粒径が0.06mm以下の細粒堆積岩。",
             "description_detail": (
                 "泥岩は、粒径0.06mm以下の粘土・シルト粒子が静かな水環境（深海底・湖底・河川氾濫原）に堆積・固結した堆積岩です。"
@@ -155,12 +156,12 @@ ROCKS = {
             "hardness": 2.5,
             "color": "灰・黒・茶",
             "uses": "陶芸原料・レンガ材料・陶器",
-            "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3f/Mudstone_%28lithified_mudstone%29.jpg/480px-Mudstone_%28lithified_mudstone%29.jpg",
         },
         {
             "name": "礫岩",
             "name_en": "Conglomerate",
             "name_kana": "コングロメリット",
+            "wiki_title": "Conglomerate (geology)",
             "description": "礫（2mm以上の粒）が泥や砂で固められた堆積岩。",
             "description_detail": (
                 "礫岩は、粒径2mm以上の礫が砂や泥とともに固結した堆積岩で、高エネルギーの堆積環境（河川上流・扇状地・海岸）に形成されます。"
@@ -172,15 +173,15 @@ ROCKS = {
             "hardness": 6.0,
             "color": "混合色",
             "uses": "建築骨材・装飾石材",
-            "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5f/Conglomerate_8577.jpg/480px-Conglomerate_8577.jpg",
         },
         {
             "name": "チャート",
             "name_en": "Chert",
             "name_kana": "チャート",
+            "wiki_title": "Chert",
             "description": "放散虫などの珪酸質生物の遺骸が堆積した緻密な岩石。",
             "description_detail": (
-                "チャートは、珪酸（SiO₂）を骨格に持つ放散虫・海綿・珪藻などの微小生物遺骸が深海底に堆積し、固結した岩石です。"
+                "チャートは、珪酸（SiO2）を骨格に持つ放散虫・海綿・珪藻などの微小生物遺骸が深海底に堆積し、固結した岩石です。"
                 "炭酸カルシウムが溶解する深度（炭酸塩補償深度）以深の深海でも溶けずに堆積できる珪酸質の岩石です。"
                 "非常に緻密で硬く（モース硬度7）、石器時代の打製石器（火打石）として最も重要な材料の一つでした。"
                 "ナイフのような鋭い断口を生じるため、黒曜石と並んで世界各地の先史文化で広く利用されています。"
@@ -189,12 +190,12 @@ ROCKS = {
             "hardness": 7.0,
             "color": "赤・緑・灰・黒",
             "uses": "火打石（先史時代）・研磨材",
-            "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6c/Jasper_chert.jpg/480px-Jasper_chert.jpg",
         },
         {
             "name": "岩塩",
             "name_en": "Rock Salt",
             "name_kana": "ロックソルト",
+            "wiki_title": "Halite",
             "description": "塩化ナトリウムを主成分とする蒸発岩。海水の蒸発により形成される。",
             "description_detail": (
                 "岩塩は、閉鎖的な内海や干上がった湖に海水・塩水が流れ込み、蒸発・濃縮を繰り返すことでハライト（塩化ナトリウム）が晶出・堆積した蒸発岩です。"
@@ -206,7 +207,6 @@ ROCKS = {
             "hardness": 2.5,
             "color": "白・透明・ピンク",
             "uses": "食塩・化学工業原料・道路の融雪剤",
-            "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/12/Halite_crystals.jpg/480px-Halite_crystals.jpg",
         },
     ],
     "metamorphic": [
@@ -214,6 +214,7 @@ ROCKS = {
             "name": "大理石",
             "name_en": "Marble",
             "name_kana": "マーブル",
+            "wiki_title": "Marble",
             "description": "石灰岩が熱や圧力で変成した岩石。美しい模様と光沢が特徴。",
             "description_detail": (
                 "大理石は、石灰岩（または苦灰岩）が熱変成・接触変成作用を受け、方解石が再結晶化することで形成される変成岩です。"
@@ -225,12 +226,12 @@ ROCKS = {
             "hardness": 3.0,
             "color": "白・灰・黒・色多様",
             "uses": "彫刻・建築内装・床材・カウンタートップ",
-            "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b7/Marble_sample.jpg/480px-Marble_sample.jpg",
         },
         {
             "name": "片岩",
             "name_en": "Schist",
             "name_kana": "シスト",
+            "wiki_title": "Schist",
             "description": "強い変成作用を受け、雲母などの板状鉱物が平行に並んだ岩石。",
             "description_detail": (
                 "片岩は、泥岩・砂岩などが中程度〜高度の変成作用を受け、雲母（白雲母・黒雲母）・緑泥石などの板状鉱物が圧力に直交する方向に揃って並んだ岩石です。"
@@ -242,12 +243,12 @@ ROCKS = {
             "hardness": 5.0,
             "color": "銀灰色・緑・茶",
             "uses": "装飾石材・建築外装",
-            "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1e/Schist.jpg/480px-Schist.jpg",
         },
         {
             "name": "片麻岩",
             "name_en": "Gneiss",
             "name_kana": "ナイス",
+            "wiki_title": "Gneiss",
             "description": "高温高圧の変成作用を受けた岩石。縞状の模様が特徴。",
             "description_detail": (
                 "片麻岩は、高温高圧の変成作用（広域変成作用）を受けた岩石で、明色帯（石英・長石）と暗色帯（雲母・角閃石）が交互に縞状に並ぶ「片麻状構造」を持ちます。"
@@ -259,12 +260,12 @@ ROCKS = {
             "hardness": 6.5,
             "color": "灰白色・縞模様",
             "uses": "建築石材・舗装材",
-            "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6e/Gneiss_in_hand.jpg/480px-Gneiss_in_hand.jpg",
         },
         {
             "name": "石英岩",
             "name_en": "Quartzite",
             "name_kana": "クォーツァイト",
+            "wiki_title": "Quartzite",
             "description": "砂岩が変成してできた非常に硬い岩石。石英が主成分。",
             "description_detail": (
                 "石英岩は、石英を主体とする砂岩が変成作用を受け、石英粒子が再結晶・融合して隙間なく緻密に結合した変成岩です。"
@@ -276,12 +277,12 @@ ROCKS = {
             "hardness": 7.0,
             "color": "白・灰・ピンク",
             "uses": "耐火材・研磨材・装飾石材",
-            "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2e/Quartzite_in_a_hand_sample.jpg/480px-Quartzite_in_a_hand_sample.jpg",
         },
         {
             "name": "ホルンフェルス",
             "name_en": "Hornfels",
             "name_kana": "ホルンフェルス",
+            "wiki_title": "Hornfels",
             "description": "マグマの熱によって接触変成を受けた緻密で硬い岩石。",
             "description_detail": (
                 "ホルンフェルスは、マグマが貫入した際の熱によって周囲の岩石が「焼かれて」変成された接触変成岩です。"
@@ -293,12 +294,12 @@ ROCKS = {
             "hardness": 6.5,
             "color": "黒・暗灰・茶",
             "uses": "砕石・道路材料",
-            "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e5/Hornfels_in_hand_sample.jpg/480px-Hornfels_in_hand_sample.jpg",
         },
         {
             "name": "蛇紋岩",
             "name_en": "Serpentinite",
             "name_kana": "サーペンティナイト",
+            "wiki_title": "Serpentinite",
             "description": "橄欖岩などが低温高圧の変成を受けた岩石。蛇の皮に似た模様が特徴。",
             "description_detail": (
                 "蛇紋岩は、かんらん岩（ペリドタイト）などのマントル由来の岩石が、水を多く含む低温高圧の環境で変成（蛇紋岩化）することで形成されます。"
@@ -310,7 +311,6 @@ ROCKS = {
             "hardness": 3.5,
             "color": "緑・黄緑・黒",
             "uses": "装飾石材・宝飾品",
-            "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/8f/Serpentinite.jpg/480px-Serpentinite.jpg",
         },
     ],
 }
