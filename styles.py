@@ -279,33 +279,50 @@ def get_css() -> str:
 
 
 def rock_entry_html(rock: dict, category: str) -> str:
-    """岩石1件分の事典エントリーHTMLを返す（画像なし部分）。"""
-    title_row = f"""
-    <div class="rock-title-row">
-      <span class="rock-name-ja">{rock['name']}</span>
-      <span class="rock-name-en">{rock['name_en']}</span>
-      <span class="rock-name-kana">/{rock['name_kana']}/</span>
-    </div>"""
+    """岩石1件分の事典エントリーHTMLを返す（画像込み）。"""
+    info = CATEGORY_COLORS[category]
 
-    specs = f"""
-    <div class="rock-specs">
-      <span class="rock-spec-badge">⬡ 硬度&nbsp;<strong>{rock['hardness']}</strong></span>
-      <span class="rock-spec-badge">🎨&nbsp;<strong>{rock['color']}</strong></span>
-      <span class="rock-spec-badge">🔧&nbsp;{rock['uses']}</span>
-    </div>"""
+    # 画像 + onerror フォールバック（壊れた場合は絵文字を表示）
+    fallback_style = (
+        f"background:{info['light']};height:180px;display:flex;"
+        f"align-items:center;justify-content:center;font-size:3rem;"
+        f"border-bottom:1px solid {info['border']};"
+    )
+    img_html = (
+        f'<div class="rock-image-wrap">'
+        f'<img src="{rock["image_url"]}" alt="{rock["name_en"]}"'
+        f' style="width:100%;height:180px;object-fit:cover;display:block"'
+        f' onerror="this.onerror=null;this.style.display=\'none\';this.nextElementSibling.style.display=\'flex\';" />'
+        f'<div style="{fallback_style}display:none">{info["emoji"]}</div>'
+        f'<div class="rock-image-caption">{rock["name"]} / {rock["name_en"]}</div>'
+        f'</div>'
+    )
 
-    return f"""
-<div class="rock-entry">
-  <div class="rock-entry-header rock-entry-header-{category}">
-    {title_row}
-  </div>
-  <div class="rock-entry-body">
-    <p class="rock-short-desc">{rock['description']}</p>
-    <p class="rock-detail-desc">{rock['description_detail']}</p>
-    {specs}
-  </div>
-</div>
-"""
+    specs = (
+        f'<div class="rock-specs">'
+        f'<span class="rock-spec-badge">&#x2B21; 硬度&nbsp;<strong>{rock["hardness"]}</strong></span>'
+        f'<span class="rock-spec-badge">&#127912;&nbsp;<strong>{rock["color"]}</strong></span>'
+        f'<span class="rock-spec-badge">&#128295;&nbsp;{rock["uses"]}</span>'
+        f'</div>'
+    )
+
+    return (
+        f'<div class="rock-entry">'
+        f'<div class="rock-entry-header rock-entry-header-{category}">'
+        f'<div class="rock-title-row">'
+        f'<span class="rock-name-ja">{rock["name"]}</span>'
+        f'<span class="rock-name-en">{rock["name_en"]}</span>'
+        f'<span class="rock-name-kana">/{rock["name_kana"]}/</span>'
+        f'</div>'
+        f'</div>'
+        f'{img_html}'
+        f'<div class="rock-entry-body">'
+        f'<p class="rock-short-desc">{rock["description"]}</p>'
+        f'<p class="rock-detail-desc">{rock["description_detail"]}</p>'
+        f'{specs}'
+        f'</div>'
+        f'</div>'
+    )
 
 
 def category_heading_html(category: str, count: int) -> str:
