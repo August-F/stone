@@ -193,6 +193,7 @@ def render_identification_chart() -> None:
             options=COLOR_LABELS,
             index=None,
             label_visibility="collapsed",
+            key="id_chart_color",
         )
 
         # ── Step 2: 質感（色が選ばれたとき表示） ───────────────
@@ -205,6 +206,7 @@ def render_identification_chart() -> None:
                 options=options_2,
                 index=None,
                 label_visibility="collapsed",
+                key=f"id_chart_texture_{color_choice}",
             )
 
         # ── ヒント ────────────────────────────────────────────
@@ -265,18 +267,33 @@ tab_labels = [
     f"{CATEGORY_COLORS[c]['emoji']} {CATEGORY_LABELS[c]}" for c in categories
 ] + ["🔍 同定チャート"]
 
-tabs = st.tabs(tab_labels)
+tab_igneous, tab_sedimentary, tab_metamorphic, tab_chart = st.tabs(tab_labels)
 
-for tab, category in zip(tabs[:3], categories):
-    with tab:
-        rocks = get_rocks_by_category(category)
-        st.html(category_heading_html(category, len(rocks)))
-        cols = st.columns(2, gap="medium")
-        for i, rock in enumerate(rocks):
-            with cols[i % 2]:
-                render_rock(rock, category)
+with tab_igneous:
+    rocks = get_rocks_by_category("igneous")
+    st.html(category_heading_html("igneous", len(rocks)))
+    cols = st.columns(2, gap="medium")
+    for i, rock in enumerate(rocks):
+        with cols[i % 2]:
+            render_rock(rock, "igneous")
 
-with tabs[3]:
+with tab_sedimentary:
+    rocks = get_rocks_by_category("sedimentary")
+    st.html(category_heading_html("sedimentary", len(rocks)))
+    cols = st.columns(2, gap="medium")
+    for i, rock in enumerate(rocks):
+        with cols[i % 2]:
+            render_rock(rock, "sedimentary")
+
+with tab_metamorphic:
+    rocks = get_rocks_by_category("metamorphic")
+    st.html(category_heading_html("metamorphic", len(rocks)))
+    cols = st.columns(2, gap="medium")
+    for i, rock in enumerate(rocks):
+        with cols[i % 2]:
+            render_rock(rock, "metamorphic")
+
+with tab_chart:
     render_identification_chart()
 
 # ─── フッター ─────────────────────────────────────────────────────────────────
