@@ -485,3 +485,12 @@ def get_all_use_tokens() -> list[str]:
             for token in rock["uses"].split("・"):
                 tokens.add(token.strip())
     return sorted(tokens)
+
+
+def get_rock_by_name(name: str) -> tuple[dict, str] | None:
+    """岩石名（日本語）で岩石データとカテゴリを返す。見つからなければ None。"""
+    for category, rocks in ROCKS.items():
+        for rock in rocks:
+            if rock["name"] == name:
+                return rock, category
+    return None
