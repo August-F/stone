@@ -141,11 +141,11 @@ def get_css() -> str:
     .rock-name-en {
         font-size: 0.95rem;
         font-weight: 600;
-        color: #555;
+        color: #3A3A3A;
     }
     .rock-name-kana {
         font-size: 0.78rem;
-        color: #888;
+        color: #5A4A3A;
         background: #F0EDE8;
         border-radius: 2px;
         padding: 0.08rem 0.45rem;
@@ -216,7 +216,7 @@ def get_css() -> str:
     }
     .rock-image-caption {
         font-size: 0.72rem;
-        color: #888;
+        color: #5A4A3A;
         text-align: center;
         padding: 0.25rem 0.5rem;
         background: #F5F0E8;
@@ -243,15 +243,10 @@ def get_css() -> str:
         opacity: 0.75;
     }
 
-    /* ── サイドバー ──────────────────────────────────────────── */
-    [data-testid="stSidebar"] {
-        background: #F5F0E8;
-        border-right: 1px solid #DDD5C0;
-    }
-    [data-testid="stSidebar"] .stMarkdown h2,
-    [data-testid="stSidebar"] .stMarkdown h3 {
-        font-family: 'Noto Serif JP', serif;
-        color: #2C1810;
+    /* ── サイドバー（非表示） ────────────────────────────────── */
+    [data-testid="stSidebar"],
+    [data-testid="collapsedControl"] {
+        display: none !important;
     }
 
     /* ── フッター ────────────────────────────────────────────── */
