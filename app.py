@@ -164,6 +164,7 @@ def render_chart_candidate(name: str) -> None:
     st.divider()
 
 
+@st.fragment
 def render_identification_chart() -> None:
     """露頭での岩石同定チャートを表示。"""
     st.html("""
