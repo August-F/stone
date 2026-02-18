@@ -269,6 +269,34 @@ def get_css() -> str:
         font-size: 1rem;
     }
 
+    /* ── 露頭での見分け方 ────────────────────────────────────── */
+    .rock-field-id {
+        background: #FFFDF0;
+        border: 1px dashed #C9A84C;
+        border-radius: 3px;
+        padding: 0.55rem 0.75rem 0.5rem;
+        margin-top: 0.75rem;
+        font-size: 0.82rem;
+        color: #3D2B00;
+        line-height: 1.8;
+    }
+    .rock-field-id-label {
+        font-weight: 700;
+        color: #7A5800;
+        font-size: 0.78rem;
+        letter-spacing: 0.04em;
+        margin-bottom: 0.25rem;
+        display: block;
+    }
+
+    /* ── 詳細説明の行間 ──────────────────────────────────────── */
+    .rock-detail-desc {
+        font-size: 0.84rem;
+        color: #444;
+        line-height: 1.9;
+        margin-top: 0.5rem;
+    }
+
     /* ── レスポンシブ ────────────────────────────────────────── */
     @media (max-width: 640px) {
         .encyclopedia-header h1 { font-size: 1.7rem; }
@@ -306,6 +334,18 @@ def rock_entry_html(rock: dict, category: str) -> str:
         f'</div>'
     )
 
+    # 詳細説明：「。」で区切って各文を改行
+    detail_sentences = [s.strip() for s in rock["description_detail"].split("。") if s.strip()]
+    detail_html = "。<br>".join(detail_sentences) + "。"
+
+    # 露頭での見分け方：同様に改行
+    field_sentences = [s.strip() for s in rock.get("field_id", "").split("。") if s.strip()]
+    field_html = (
+        f'<span class="rock-field-id-label">🔎 露頭での見分け方</span>'
+        + "。<br>".join(field_sentences) + "。"
+    ) if field_sentences else ""
+    field_section = f'<div class="rock-field-id">{field_html}</div>' if field_sentences else ""
+
     return (
         f'<div class="rock-entry">'
         f'<div class="rock-entry-header rock-entry-header-{category}">'
@@ -318,7 +358,8 @@ def rock_entry_html(rock: dict, category: str) -> str:
         f'{img_html}'
         f'<div class="rock-entry-body">'
         f'<p class="rock-short-desc">{rock["description"]}</p>'
-        f'<p class="rock-detail-desc">{rock["description_detail"]}</p>'
+        f'<p class="rock-detail-desc">{detail_html}</p>'
+        f'{field_section}'
         f'{specs}'
         f'</div>'
         f'</div>'

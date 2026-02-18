@@ -3,7 +3,13 @@
 import requests
 import streamlit as st
 
-from data.rocks import CATEGORY_LABELS, get_rocks_by_category, search_rocks
+from data.rocks import (
+    CATEGORY_LABELS,
+    get_all_color_tokens,
+    get_all_use_tokens,
+    get_rocks_by_category,
+    search_rocks,
+)
 from styles import CATEGORY_COLORS, category_heading_html, get_css, rock_entry_html
 
 # ─── ページ設定 ───────────────────────────────────────────────────────────────
@@ -85,6 +91,24 @@ with st.sidebar:
         )
 
     st.markdown("---")
+    st.markdown("### 🎨 色で絞り込み")
+    all_colors = get_all_color_tokens()
+    selected_colors = st.multiselect(
+        "色を選択（複数可）",
+        options=all_colors,
+        label_visibility="collapsed",
+    )
+
+    st.markdown("---")
+    st.markdown("### 🔧 用途で絞り込み")
+    all_uses = get_all_use_tokens()
+    selected_uses = st.multiselect(
+        "用途を選択（複数可）",
+        options=all_uses,
+        label_visibility="collapsed",
+    )
+
+    st.markdown("---")
     st.markdown("### モース硬度の目安")
     for h, m in [
         ("1", "滑石"), ("2", "石膏"), ("3", "方解石"), ("4", "蛍石"), ("5", "燐灰石"),
@@ -103,6 +127,28 @@ with st.spinner("画像を読み込み中…"):
     _thumbnails = fetch_thumbnails(_all_titles)
 
 
+def apply_filters(
+    rocks: list[dict],
+    hardness_range: tuple[float, float],
+    selected_colors: list[str],
+    selected_uses: list[str],
+) -> list[dict]:
+    result = []
+    for rock in rocks:
+        if not (hardness_range[0] <= rock["hardness"] <= hardness_range[1]):
+            continue
+        if selected_colors:
+            rock_colors = [c.strip() for c in rock["color"].split("・")]
+            if not any(c in selected_colors for c in rock_colors):
+                continue
+        if selected_uses:
+            rock_uses = [u.strip() for u in rock["uses"].split("・")]
+            if not any(u in selected_uses for u in rock_uses):
+                continue
+        result.append(rock)
+    return result
+
+
 def render_rock(rock: dict, category: str) -> None:
     img_url = resolve_image_url(rock, _thumbnails)
     st.html(rock_entry_html({**rock, "image_url": img_url}, category))
@@ -110,10 +156,9 @@ def render_rock(rock: dict, category: str) -> None:
 
 # ─── 検索モード ───────────────────────────────────────────────────────────────
 if search_query:
-    results = [
-        r for r in search_rocks(search_query)
-        if hardness_range[0] <= r["hardness"] <= hardness_range[1]
-    ]
+    results = apply_filters(
+        search_rocks(search_query), hardness_range, selected_colors, selected_uses
+    )
     st.html(
         f'<h3 style="color:#5C2D0A;font-family:serif">'
         f'検索結果：「{search_query}」'
@@ -139,10 +184,9 @@ else:
     for tab, category in zip(tabs, categories):
         with tab:
             rocks = get_rocks_by_category(category)
-            filtered = [
-                r for r in rocks
-                if hardness_range[0] <= r["hardness"] <= hardness_range[1]
-            ]
+            filtered = apply_filters(
+                rocks, hardness_range, selected_colors, selected_uses
+            )
 
             st.html(category_heading_html(category, len(filtered)))
 
