@@ -384,6 +384,7 @@ def get_css() -> str:
         .chart-verdict      { background: #2A2010; border-color: #C9A84C; }
         .chart-verdict .verdict-label { color: #A09080; }
         .chart-verdict .verdict-name  { color: #F0E8D8; }
+        .rock-detail-desc   { color: #C8C0B0; }
     }
 
     /* ── 同定結果「それはおそらく〇〇です」 ─────────────────── */
