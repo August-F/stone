@@ -381,6 +381,33 @@ def get_css() -> str:
         .chart-cand-tip     { background: #252010; border-left-color: #C9A84C; color: #C9A870; }
         .chart-cand-tag     { background: #3A3028; color: #D4C8B4; }
         .chart-empty        { background: #1E1C18; border-color: #4A4030; color: #A09070; }
+        .chart-verdict      { background: #2A2010; border-color: #C9A84C; }
+        .chart-verdict .verdict-label { color: #A09080; }
+        .chart-verdict .verdict-name  { color: #F0E8D8; }
+    }
+
+    /* ── 同定結果「それはおそらく〇〇です」 ─────────────────── */
+    .chart-verdict {
+        text-align: center;
+        padding: 1rem 1rem 0.8rem;
+        margin-bottom: 0.8rem;
+        background: #FDFAF5;
+        border-radius: 6px;
+        border: 2px solid #C9A84C;
+    }
+    .chart-verdict .verdict-label {
+        font-size: 0.88rem;
+        color: #7A5800;
+        letter-spacing: 0.05em;
+    }
+    .chart-verdict .verdict-name {
+        font-family: 'Noto Serif JP', serif;
+        font-size: 2rem;
+        font-weight: 700;
+        color: #2C1810;
+        letter-spacing: 0.08em;
+        margin: 0.15rem 0;
+        line-height: 1.2;
     }
 </style>
 """

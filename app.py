@@ -203,6 +203,11 @@ def render_chart_candidate(name: str) -> None:
     # 短い説明
     st.caption(rock["description"])
 
+    # 詳しい説明
+    detail_sentences = [s.strip() for s in rock["description_detail"].split("。") if s.strip()]
+    detail_html = "。<br>".join(detail_sentences) + "。"
+    st.html(f'<p class="rock-detail-desc" style="margin-top:0.3rem">{detail_html}</p>')
+
     # 露頭の見分け方（最初の1文のみ）
     first_tip = rock.get("field_id", "").split("。")[0]
     if first_tip:
@@ -314,26 +319,39 @@ def render_identification_chart() -> None:
                 else:
                     # Step 3 回答済み → 1種に確定
                     final = step3_entry["opts"][step3_choice]
-                    st.markdown("**1 種に絞り込みました**")
+                    st.html(f"""
+                    <div class="chart-verdict">
+                      <div class="verdict-label">それはおそらく</div>
+                      <div class="verdict-name">{final}</div>
+                      <div class="verdict-label">です</div>
+                    </div>
+                    """)
                     render_chart_candidate(final)
             elif candidates:
-                st.markdown(
-                    f"**候補岩石 {len(candidates)} 種**"
-                    f"（{color_choice.split(' ', 1)[-1]} × {texture_choice}）"
-                )
-                for name in candidates:
-                    render_chart_candidate(name)
+                # Step 3 不要で1種に確定
+                [name] = candidates
+                st.html(f"""
+                <div class="chart-verdict">
+                  <div class="verdict-label">それはおそらく</div>
+                  <div class="verdict-name">{name}</div>
+                  <div class="verdict-label">です</div>
+                </div>
+                """)
+                render_chart_candidate(name)
             else:
                 st.info("該当する岩石が見つかりませんでした。Step 1・2 を見直してください。")
 
 
 # ─── タブ表示 ─────────────────────────────────────────────────────────────────
 categories = list(CATEGORY_LABELS.keys())
-tab_labels = [
+tab_labels = ["🔍 同定チャート"] + [
     f"{CATEGORY_COLORS[c]['emoji']} {CATEGORY_LABELS[c]}" for c in categories
-] + ["🔍 同定チャート"]
+]
 
-tab_igneous, tab_sedimentary, tab_metamorphic, tab_chart = st.tabs(tab_labels)
+tab_chart, tab_igneous, tab_sedimentary, tab_metamorphic = st.tabs(tab_labels)
+
+with tab_chart:
+    render_identification_chart()
 
 with tab_igneous:
     rocks = get_rocks_by_category("igneous")
@@ -358,9 +376,6 @@ with tab_metamorphic:
     for i, rock in enumerate(rocks):
         with cols[i % 2]:
             render_rock(rock, "metamorphic")
-
-with tab_chart:
-    render_identification_chart()
 
 # ─── フッター ─────────────────────────────────────────────────────────────────
 st.html("""
