@@ -2,11 +2,13 @@
 
 import requests
 import streamlit as st
+from concurrent.futures import ThreadPoolExecutor
 
 from data.rocks import (
     CATEGORY_LABELS,
     get_rock_by_name,
     get_rocks_by_category,
+    search_rocks,
 )
 from styles import CATEGORY_COLORS, category_heading_html, get_css, rock_entry_html
 
@@ -23,8 +25,7 @@ st.markdown(get_css(), unsafe_allow_html=True)
 # ─── Wikipedia サムネイル取得 ──────────────────────────────────────────────────
 @st.cache_data(show_spinner=False)
 def fetch_thumbnails(wiki_titles: tuple[str, ...]) -> dict[str, str]:
-    result: dict[str, str] = {}
-    for title in wiki_titles:
+    def _fetch_one(title: str) -> tuple[str, str]:
         try:
             url = (
                 "https://en.wikipedia.org/api/rest_v1/page/summary/"
@@ -37,9 +38,16 @@ def fetch_thumbnails(wiki_titles: tuple[str, ...]) -> dict[str, str]:
             if resp.status_code == 200:
                 thumb = resp.json().get("thumbnail", {}).get("source", "")
                 if thumb:
-                    result[title] = thumb
+                    return title, thumb
         except Exception:
             pass
+        return title, ""
+
+    result: dict[str, str] = {}
+    with ThreadPoolExecutor(max_workers=6) as executor:
+        for title, thumb in executor.map(_fetch_one, wiki_titles):
+            if thumb:
+                result[title] = thumb
     return result
 
 
@@ -68,6 +76,38 @@ with st.spinner("画像を読み込み中…"):
 def render_rock(rock: dict, category: str) -> None:
     img_url = resolve_image_url(rock, _thumbnails)
     st.html(rock_entry_html({**rock, "image_url": img_url}, category))
+    with st.expander("📖 詳しく見る"):
+        detail_sentences = [s.strip() for s in rock["description_detail"].split("。") if s.strip()]
+        detail_html = "。<br>".join(detail_sentences) + "。"
+        st.html(f'<p class="rock-detail-desc" style="margin:0.3rem 0">{detail_html}</p>')
+        field_sentences = [s.strip() for s in rock.get("field_id", "").split("。") if s.strip()]
+        if field_sentences:
+            field_content = "。<br>".join(field_sentences) + "。"
+            st.html(
+                f'<div class="rock-field-id">'
+                f'<span class="rock-field-id-label">🔎 露頭での見分け方</span>'
+                f'{field_content}</div>'
+            )
+
+
+# ─── 検索 ─────────────────────────────────────────────────────────────────────
+_search_query = st.text_input(
+    "🔍 岩石を検索",
+    placeholder="例：花崗岩、赤い、セメント、硬い…",
+    key="rock_search",
+    label_visibility="collapsed",
+)
+if _search_query:
+    _results = search_rocks(_search_query)
+    if _results:
+        st.markdown(f"**「{_search_query}」の検索結果 — {len(_results)} 件**")
+        _cols = st.columns(min(len(_results), 2), gap="medium")
+        for _i, _rock in enumerate(_results):
+            with _cols[_i % 2]:
+                render_rock(_rock, _rock["category"])
+    else:
+        st.info(f"「{_search_query}」に一致する岩石は見つかりませんでした。")
+    st.stop()
 
 
 # ─── 同定チャートのデータ定義 ─────────────────────────────────────────────────
@@ -203,6 +243,15 @@ def render_chart_candidate(name: str) -> None:
     # 短い説明
     st.caption(rock["description"])
 
+    # スペックバッジ
+    st.html(
+        f'<div class="rock-specs" style="margin:0.3rem 0">'
+        f'<span class="rock-spec-badge">&#x2B21; 硬度&nbsp;<strong>{rock["hardness"]}</strong></span>'
+        f'<span class="rock-spec-badge">&#127912;&nbsp;<strong>{rock["color"]}</strong></span>'
+        f'<span class="rock-spec-badge">&#128295;&nbsp;{rock["uses"]}</span>'
+        f'</div>'
+    )
+
     # 詳しい説明
     detail_sentences = [s.strip() for s in rock["description_detail"].split("。") if s.strip()]
     detail_html = "。<br>".join(detail_sentences) + "。"
@@ -222,9 +271,17 @@ def render_identification_chart() -> None:
     st.html("""
     <div style="margin-bottom:1rem">
       <h3 class="chart-header-title">🔍 露頭での岩石同定チャート</h3>
-      <p class="chart-header-sub">観察できる特徴を 2 ステップで選ぶと候補岩石を表示します。</p>
+      <p class="chart-header-sub">観察できる特徴を最大 3 ステップで選ぶと候補岩石を表示します。</p>
     </div>
     """)
+
+    # ── リセットボタン ────────────────────────────────────────
+    _reset_col, _ = st.columns([1, 4])
+    with _reset_col:
+        if st.button("🔄 最初からやり直す", key="chart_reset"):
+            for _k in [k for k in st.session_state if k.startswith("id_chart_")]:
+                del st.session_state[_k]
+            st.rerun()
 
     col_q, col_r = st.columns([1, 1], gap="large")
 
@@ -344,7 +401,7 @@ def render_identification_chart() -> None:
 
 # ─── タブ表示 ─────────────────────────────────────────────────────────────────
 categories = list(CATEGORY_LABELS.keys())
-tab_labels = ["🔍 同定チャート"] + [
+tab_labels = ["🔍 この石なに？"] + [
     f"{CATEGORY_COLORS[c]['emoji']} {CATEGORY_LABELS[c]}" for c in categories
 ]
 

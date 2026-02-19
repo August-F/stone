@@ -298,6 +298,40 @@ def get_css() -> str:
         .rock-name-ja { font-size: 1.1rem; }
     }
 
+    @media (max-width: 768px) {
+        .encyclopedia-header {
+            padding: 1.2rem 1rem;
+        }
+        .encyclopedia-header h1 {
+            font-size: 1.5rem;
+        }
+        .encyclopedia-header::before,
+        .encyclopedia-header::after {
+            display: none;
+        }
+        .encyclopedia-header .subtitle {
+            font-size: 0.78rem;
+            letter-spacing: 0.06em;
+        }
+        .rock-image-wrap img {
+            height: 140px;
+        }
+        .rock-entry-body {
+            padding: 0.6rem 0.8rem 0.7rem;
+        }
+        .rock-spec-badge {
+            font-size: 0.72rem;
+            padding: 0.15rem 0.4rem;
+        }
+        .chart-hint-box {
+            font-size: 0.75rem;
+            padding: 0.6rem 0.8rem;
+        }
+        .chart-header-title {
+            font-size: 1rem;
+        }
+    }
+
     /* ── カテゴリ見出し（色はCSSクラスで管理） ───────────────── */
     .category-heading-igneous    { color: #8B1A1A; border-left-color: #8B1A1A; }
     .category-heading-sedimentary{ color: #6B4226; border-left-color: #6B4226; }
@@ -442,18 +476,6 @@ def rock_entry_html(rock: dict, category: str) -> str:
         f'</div>'
     )
 
-    # 詳細説明：「。」で区切って各文を改行
-    detail_sentences = [s.strip() for s in rock["description_detail"].split("。") if s.strip()]
-    detail_html = "。<br>".join(detail_sentences) + "。"
-
-    # 露頭での見分け方：同様に改行
-    field_sentences = [s.strip() for s in rock.get("field_id", "").split("。") if s.strip()]
-    field_html = (
-        f'<span class="rock-field-id-label">🔎 露頭での見分け方</span>'
-        + "。<br>".join(field_sentences) + "。"
-    ) if field_sentences else ""
-    field_section = f'<div class="rock-field-id">{field_html}</div>' if field_sentences else ""
-
     return (
         f'<div class="rock-entry">'
         f'<div class="rock-entry-header rock-entry-header-{category}">'
@@ -466,8 +488,6 @@ def rock_entry_html(rock: dict, category: str) -> str:
         f'{img_html}'
         f'<div class="rock-entry-body">'
         f'<p class="rock-short-desc">{rock["description"]}</p>'
-        f'<p class="rock-detail-desc">{detail_html}</p>'
-        f'{field_section}'
         f'{specs}'
         f'</div>'
         f'</div>'
